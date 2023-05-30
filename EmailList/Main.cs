@@ -532,7 +532,40 @@ namespace EmailList
 
 
         }
+        
+        private void pictureBox5_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("Вы хотите удалить запись?", "Вы хотите удалить запись?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
+            if (result == DialogResult.Yes)
+            {
+                try
+                {
+                // Проверяем, есть ли выделенная строка
+                    if (dataGridView1.SelectedRows.Count > 0)
+                    {
+                        // Получаем индекс выделенной строки
+                        int rowIndex = dataGridView1.SelectedRows[0].Index;
+
+                        // Удаляем строку из DataTable
+                        dataTable.Rows.RemoveAt(rowIndex);
+
+                        // Обновляем номера строк в DataTable
+                        RefreshRowNumbers();
+
+                        // Обновляем источник данных DataGridView
+                        dataGridView1.DataSource = dataTable;
+
+                        // Сохраняем изменения в файл data.txt
+                        SaveDataToFile2();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Произошла ошибка: " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
  
         private void RefreshRowNumbers()
         {
