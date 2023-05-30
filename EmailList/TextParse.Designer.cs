@@ -1,4 +1,4 @@
-﻿namespace EmailList
+namespace EmailList
 {
     partial class TextParse
     {
