@@ -604,13 +604,22 @@ namespace EmailList
             File.WriteAllText(fileName, sb.ToString());
         }
 
+        private void pictureBox7_Click(object sender, EventArgs e)
+        {
+            string searchText = textBox1.Text.Trim(); // Текст для поиска
+            dataView = new DataView(dataTable);
+            // Установка DataView в качестве источника данных для DataGridView
+            dataGridView1.DataSource = dataView;
+            // Проверка, не пуст ли текст для поиска
+            if (!string.IsNullOrEmpty(searchText))
+            {
+                // Сохранение оригинального фильтра DataView
+                originalFilter = dataView.RowFilter;
 
-
-
-
-
-
- 
+                // Установка нового фильтра для DataView
+                dataView.RowFilter = $"[Адрес Почты] LIKE '%{searchText}%'";
+            }
+        }
 
         private void pictureBox8_Click(object sender, EventArgs e)
         {
