@@ -646,7 +646,52 @@ namespace EmailList
 
         }
 
-       
+        private void pictureBox6_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("Вы хотите удалить Повторяющиеся записи?", "Вы хотите удалить Повторяющиеся записи?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                try
+                {
+                // Создаем новую DataTable для временного хранения данных без повторений
+                DataTable distinctDataTable = dataTable.Clone();
+
+                // Создаем HashSet для хранения уникальных адресов электронной почты
+                HashSet<string> uniqueEmails = new HashSet<string>();
+
+                // Проходимся по каждой строке в исходной DataTable
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    string email = row["Адрес Почты"].ToString();
+
+                    // Проверяем, есть ли адрес электронной почты в HashSet (уже встречался ранее)
+                    if (!uniqueEmails.Contains(email))
+                    {
+                        // Добавляем адрес электронной почты в HashSet и копируем строку в новую DataTable
+                        uniqueEmails.Add(email);
+                        distinctDataTable.ImportRow(row);
+                    }
+                }
+
+                // Заменяем исходную DataTable на новую DataTable без повторений
+                dataTable = distinctDataTable;
+
+                // Обновляем номера строк в DataTable
+                RefreshRowNumbers();
+
+                // Обновляем источник данных DataGridView
+                dataGridView1.DataSource = dataTable;
+
+                // Сохраняем изменения в файле data.txt
+                SaveDataToFile2();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Произошла ошибка: " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
 
         private void pictureBox9_Click(object sender, EventArgs e)
         {
