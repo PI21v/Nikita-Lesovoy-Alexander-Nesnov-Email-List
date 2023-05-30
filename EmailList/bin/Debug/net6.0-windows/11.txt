@@ -1,0 +1,8 @@
+№	Результат	Описание	Адрес Почты
+1	не определено	213123	eee@ggg.com
+2	не определено	123123	wfwf@gg.com
+3	не определено		sarah.smith@example.com
+4	не определено		alexander.brown@example.com
+5	не определено		davidjones@example.com
+6	не определено		johndoe@example.com
+7	не определено		emily.wilson@example.com
