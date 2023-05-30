@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,12 +10,16 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Threading;
+using MailKit.Search;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace EmailList
 {
     public partial class TextParse : Form
     {
-        public TextParse()
+        string FILElog;
+        string username1;
+        public TextParse(string logFILE,string username)
         {
             InitializeComponent();
             // Создаем столбцы DataGridView
@@ -26,12 +30,12 @@ namespace EmailList
             DataGridViewTextBoxColumn descriptionColumn = new DataGridViewTextBoxColumn();
             descriptionColumn.HeaderText = "Описание";
             descriptionColumn.Name = "DescriptionColumn";
-
+            username1 = username;
             // Добавляем столбцы к DataGridView
             dataGridView1.Columns.Add(emailColumn);
             dataGridView1.Columns.Add(descriptionColumn);
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-
+            FILElog = logFILE;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -98,7 +102,12 @@ namespace EmailList
 
                             File.WriteAllText(filePath, data);
 
-                            MessageBox.Show("Данные успешно записаны в файл.", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBox.Show("Данные успешно записаны", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            using (StreamWriter writer = new StreamWriter(FILElog, true))
+                            {
+                                // Записываем данные в файл
+                                writer.WriteLine("Добавление почты из текста|" + email + ";" + opis + "|" + "для пользователя " + username1 + "|" + DateTime.Now);
+                            }
                         }
                         catch (Exception ex)
                         {
